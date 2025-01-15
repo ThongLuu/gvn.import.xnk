@@ -1,19 +1,25 @@
-import moment from 'moment';
-import _ from 'lodash';
-import localStorageServices from './localStorage.services';
-import configs from './services.configs';
+import moment from "moment";
+import _ from "lodash";
+import localStorageServices from "./localStorage.services";
+import configs from "./services.configs";
 import BaseServices from "./base.services";
 
 class AuthServices extends BaseServices {
   isExpired() {
-    let authInfo = localStorageServices.get('token');
+    let authInfo = localStorageServices.get("token");
 
-    return !authInfo || !authInfo.token || !authInfo.expired_at || moment().unix() >= moment(authInfo.expired_at, 'DD-MM-YYYY HH:mm:ss').unix();
+    return (
+      !authInfo ||
+      !authInfo.token ||
+      !authInfo.expired_at ||
+      moment().unix() >=
+        moment(authInfo.expired_at, "DD-MM-YYYY HH:mm:ss").unix()
+    );
   }
 
   hasPermission(want) {
-    let permission = localStorageServices.get('permission') || [];
-    let user = localStorageServices.get('user') || {};
+    let permission = localStorageServices.get("permission") || [];
+    let user = localStorageServices.get("user") || {};
     const { profile = {} } = user;
     const { is_master } = profile;
 
@@ -21,7 +27,7 @@ class AuthServices extends BaseServices {
       return false;
     }
 
-    if (typeof want === 'string') {
+    if (typeof want === "string") {
       want = [want];
     }
     const admin = is_master === 1;

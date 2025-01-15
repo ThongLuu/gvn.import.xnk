@@ -7,7 +7,7 @@ const isAuthenticated = (ssoAuthAddr) => {
     // serviceURL is where the sso should redirect in case of valid user
     let urlPath = req.path;
     if (urlPath === "/login") {
-      urlPath = "/dashboard";
+      urlPath = "/main";
     }
 
     const redirectURL = `${req.protocol}://${req.headers.host}${urlPath}`;

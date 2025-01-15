@@ -43,7 +43,7 @@
       var date = new Date().getFullYear();
       var link = '';
       if (localStorage.getItem('token')) {
-        link = '/dashboard';
+        link = '/main';
       } else {
         link = (`<%- ssoUrl -%>`);
       }

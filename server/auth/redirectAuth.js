@@ -50,7 +50,7 @@ const redirectAuth = (app) => {
         });
       } else {
         res.render("home", {
-          direct: "/dashboard",
+          direct: "/main",
           direct_text: "Home",
           auth: true,
           ssoUrl: ssoUrl,
