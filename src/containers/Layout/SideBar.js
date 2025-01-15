@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 const SideBar = () => {
   const menuItems = [
     { name: "Main", url: "/", icon: "pi pi-home" },
-    { name: "Build PC", url: "/pages/build-pc", icon: "pi pi-cog" },
     {
       name: "Export",
       url: "/pages/export-build-pc",
       icon: "pi pi-file-export",
     },
+    { name: "Models", url: "/models", icon: "pi pi-cog" },
   ];
 
   return (
@@ -36,9 +36,6 @@ const SideBar = () => {
           </li>
         ))}
       </ul>
-
-      {/* Footer */}
-      <div className="p-4 text-sm text-gray-300">© 2025 Sidebar App</div>
     </div>
   );
 };
