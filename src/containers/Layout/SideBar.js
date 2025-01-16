@@ -2,15 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const SideBar = () => {
-  const menuItems = [
-    { name: "Main", url: "/", icon: "pi pi-home" },
-    {
-      name: "Export",
-      url: "/pages/export-build-pc",
-      icon: "pi pi-file-export",
-    },
-    { name: "Models", url: "/models", icon: "pi pi-cog" },
-  ];
+  const menuItems = [{ name: "Models", url: "/models", icon: "pi pi-cog" }];
 
   return (
     <div

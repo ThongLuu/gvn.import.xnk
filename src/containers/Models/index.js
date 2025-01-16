@@ -1,18 +1,29 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader";
 
 const Models = () => {
   const [rowsPerPage, setRowsPerPage] = useState(30);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalRows, setTotalRows] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Dữ liệu mẫu
-  const totalRows = 69204;
-  const totalPages = Math.ceil(totalRows / rowsPerPage);
-  const data = Array.from({ length: rowsPerPage }, (_, i) => ({
-    model: `Model ${i + 1 + (currentPage - 1) * rowsPerPage}`,
-    productLine: `Product Line ${i + 1}`,
-    brand: `Brand ${i + 1}`,
-    query: `Query ${i + 1}`,
-  }));
+  const navigator = useNavigate();
+  useEffect(() => {
+    setTotalRows(69204);
+    setTotalPages(Math.ceil(totalRows / rowsPerPage));
+    setData(
+      Array.from({ length: rowsPerPage }, (_, i) => ({
+        model: `Model ${i + 1 + (currentPage - 1) * rowsPerPage}`,
+        productLine: `Product Line ${i + 1}`,
+        brand: `Brand ${i + 1}`,
+        query: `Query ${i + 1}`,
+      }))
+    );
+    setIsLoading(false);
+  }, []);
 
   // Xử lý thay đổi số lượng hàng mỗi trang
   const handleRowsPerPageChange = (e) => {
@@ -101,6 +112,7 @@ const Models = () => {
 
   return (
     <div className="p-4">
+      {isLoading && <Loader />}
       {/* Thanh tìm kiếm và nút */}
       <div className="flex justify-between items-center mb-4">
         <input
@@ -109,7 +121,10 @@ const Models = () => {
           className="border border-gray-300 p-2 rounded-md w-1/3"
         />
         <div className="flex items-center space-x-2">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md">
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            onClick={() => navigator("/models/create")}
+          >
             + Create Model
           </button>
           <button className="bg-gray-100 text-gray-600 px-4 py-2 rounded-md">
@@ -119,28 +134,36 @@ const Models = () => {
       </div>
 
       {/* Bảng */}
-      <table className="table-auto w-full border-collapse border border-gray-200">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-200 px-4 py-2">Model</th>
-            <th className="border border-gray-200 px-4 py-2">Product Line</th>
-            <th className="border border-gray-200 px-4 py-2">Brand</th>
-            <th className="border border-gray-200 px-4 py-2">Query</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index} className="hover:bg-gray-50">
-              <td className="border border-gray-200 px-4 py-2">{row.model}</td>
-              <td className="border border-gray-200 px-4 py-2">
-                {row.productLine}
-              </td>
-              <td className="border border-gray-200 px-4 py-2">{row.brand}</td>
-              <td className="border border-gray-200 px-4 py-2">{row.query}</td>
+      <div className="overflow-hidden rounded-lg border">
+        <table className="w-full">
+          <thead className="bg-white">
+            <tr className="bg-gray-100">
+              <th className="border border-gray-200 px-4 py-2">Model</th>
+              <th className="border border-gray-200 px-4 py-2">Product Line</th>
+              <th className="border border-gray-200 px-4 py-2">Brand</th>
+              <th className="border border-gray-200 px-4 py-2">Query</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((row, index) => (
+              <tr key={index} className="hover:bg-gray-50">
+                <td className="border border-gray-200 px-4 py-2">
+                  {row.model}
+                </td>
+                <td className="border border-gray-200 px-4 py-2">
+                  {row.productLine}
+                </td>
+                <td className="border border-gray-200 px-4 py-2">
+                  {row.brand}
+                </td>
+                <td className="border border-gray-200 px-4 py-2">
+                  {row.query}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       {/* Phân trang */}
       <div className="flex justify-between items-center mt-4">
